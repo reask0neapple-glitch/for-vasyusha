@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>для тебя</title>
+<style>
+  body { background: #1a0f1f; color: white; text-align: center; font-family: sans-serif; padding: 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; margin: 0; }
+  img { max-width: 100%; max-height: 300px; border-radius: 15px; margin-bottom: 20px; display: none; }
+  #text { font-size: 24px; font-weight: bold; margin-bottom: 30px; }
+  button { background: #ff6b9d; color: white; border: none; padding: 15px 40px; font-size: 18px; border-radius: 30px; cursor: pointer; }
+</style>
+</head>
+<body>
+  <img id="photo">
+  <div id="text"></div>
+  <button id="next" onclick="nextStep()">дальше</button>
+  <script>
+    const steps = [
+      { text: "васюшка я тя люблю", photo: "1.jpg" },
+      { text: "я всегда хотел быть с табой но были связаны руки", photo: "2.jpg" },
+      { text: "вопли в голове калечат мой рассудок", photo: "3.jpg" }
+    ];
+    let current = 0;
+    function showStep() {
+      document.getElementById('text').innerText = steps[current].text;
+      const img = document.getElementById('photo');
+      img.src = steps[current].photo;
+      img.style.display = 'block';
+      if (current === steps.length - 1) {
+        document.getElementById('next').innerText = "сначала";
+      } else {
+        document.getElementById('next').innerText = "дальше";
+      }
+    }
+    function nextStep() {
+      current = (current + 1) % steps.length;
+      showStep();
+    }
+    showStep();
+  </script>
+</body>
+</html>
