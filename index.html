@@ -6,37 +6,62 @@
 <title>для тебя</title>
 <style>
   body { background: #1a0f1f; color: white; text-align: center; font-family: sans-serif; padding: 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; margin: 0; }
-  img { max-width: 100%; max-height: 300px; border-radius: 15px; margin-bottom: 20px; display: none; }
-  #text { font-size: 24px; font-weight: bold; margin-bottom: 30px; }
-  button { background: #ff6b9d; color: white; border: none; padding: 15px 40px; font-size: 18px; border-radius: 30px; cursor: pointer; }
+  img { max-width: 100%; max-height: 300px; border-radius: 15px; margin-bottom: 20px; display: none; object-fit: cover; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+  #text { font-size: 24px; font-weight: bold; margin-bottom: 30px; line-height: 1.4; }
+  button { background: #ff6b9d; color: white; border: none; padding: 15px 40px; font-size: 18px; border-radius: 30px; cursor: pointer; box-shadow: 0 5px 15px rgba(255, 107, 157, 0.4); transition: 0.2s; }
+  button:active { transform: scale(0.95); }
 </style>
 </head>
 <body>
+
+  <!-- ПЛЕЕР ДЛЯ МУЗЫКИ (он невидимый) -->
+  <audio id="music" loop>
+    <source src="music.mp3" type="audio/mpeg">
+  </audio>
+
   <img id="photo">
   <div id="text"></div>
   <button id="next" onclick="nextStep()">дальше</button>
+  
   <script>
+    // ВНИМАНИЕ: Здесь я вставил точные названия твоих фото со скриншота!
     const steps = [
-      { text: "васюшка я тя люблю", photo: "1.jpg" },
-      { text: "я всегда хотел быть с табой но были связаны руки", photo: "2.jpg" },
-      { text: "вопли в голове калечат мой рассудок", photo: "3.jpg" }
+      { text: "васюшка я тя люблю", photo: "29d8241acd24bffec4124287dfb36e70.jpeg" },
+      { text: "я всегда хотел быть с табой но были связаны руки", photo: "IMG_6626.jpeg" },
+      { text: "вопли в голове калечат мой рассудок", photo: "IMG_6627.jpeg" }
     ];
+    
     let current = 0;
+    let musicStarted = false;
+
     function showStep() {
       document.getElementById('text').innerText = steps[current].text;
       const img = document.getElementById('photo');
       img.src = steps[current].photo;
       img.style.display = 'block';
+      
       if (current === steps.length - 1) {
         document.getElementById('next').innerText = "сначала";
       } else {
         document.getElementById('next').innerText = "дальше";
       }
     }
+
     function nextStep() {
+      // Включаем музыку при первом нажатии на кнопку (иначе Apple блокирует звук)
+      if (!musicStarted) {
+        const music = document.getElementById('music');
+        music.play().catch(function(error) {
+            console.log("Музыка не загружена или заблокирована");
+        });
+        musicStarted = true;
+      }
+
       current = (current + 1) % steps.length;
       showStep();
     }
+    
+    // Показываем первый шаг при загрузке
     showStep();
   </script>
 </body>
